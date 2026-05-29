@@ -1,0 +1,13 @@
+# @package _global_
+
+original_patches: 784
+compressed_patches: 196
+encoder_emb_dim: 16
+
+encoder:
+  _target_: models.visual_encoder.cosmos_ci.CosmosCIEncoder
+  model_id: "nvidia/Cosmos-0.1-Tokenizer-CI8x8"
+  # Force 14x14 token grid (112 / 8) to match decoder's 224x224 output.
+  image_size: 112
+  torch_dtype: "float16"
+  emb_dim: 16

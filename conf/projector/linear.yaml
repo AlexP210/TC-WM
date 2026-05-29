@@ -1,0 +1,2 @@
+_target_: torch.nn.Linear
+# in_features and out_features will be passed at runtime

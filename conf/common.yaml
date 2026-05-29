@@ -1,0 +1,40 @@
+img_size: 224
+frameskip: 5
+concat_dim: 1
+
+normalize_action: True
+
+num_hist: 3
+num_pred: 1
+
+num_action_repeat: 1
+num_proprio_repeat: 1
+
+debug: False
+
+num_gpus: 1
+min_free_memory_gb: 2.0
+
+rollout_num: 20
+rollout_parallel: 1
+rollout_batch: 1
+rollout_save_workers: 2
+rollout_debug: true
+rollout_uniform: true
+rollout_fixed_indices: null
+
+video_save: true
+video_save_every: 5
+video_max_rollouts: 2
+video_fps: null
+video_resize: null
+video_queue_size: 8
+video_grid_cols: 10
+video_grid_row_gap: 8
+
+plan_settings:
+  plan_cfg_path: null
+  planner: ['gd', 'cem']
+  goal_source: ['dset', 'random_state']
+  goal_H: [5]
+  alpha: [0.1, 1]

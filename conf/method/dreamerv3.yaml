@@ -1,0 +1,14 @@
+# DreamerV3-style method: RSSM dynamics + consistency loss.
+# Reward/continuation objectives are NOT listed by default (data may not have them).
+# To enable, add them here:
+#   - _target_: models.objective.objectives.RewardPredictionObjective
+#     projected_dim: ${projected_dim}
+#     loss_weight: 1.0
+#   - _target_: models.objective.objectives.ContinuationObjective
+#     projected_dim: ${projected_dim}
+#     loss_weight: 1.0
+
+objectives:
+  - _target_: models.objective.objectives.ConsistencyLossObjective
+    projected_dim: ${projected_dim}
+    loss_weight: 1.0

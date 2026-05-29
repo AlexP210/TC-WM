@@ -1,0 +1,5 @@
+_target_: models.decoder.emb_decoder_mlp.EmbDecoderMLP
+hidden_dim: 512
+num_layers: 2
+dropout: 0.0
+activation: torch.nn.ReLU

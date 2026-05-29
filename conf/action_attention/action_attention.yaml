@@ -1,0 +1,2 @@
+# Action attention module; dimensionality flags are injected during instantiation
+_target_: models.action_encoder.action_attention.ActionAttention

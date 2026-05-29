@@ -1,0 +1,42 @@
+# Official DINO WM planning config adapted for robomimic
+defaults:
+  - _self_
+
+hydra:
+  run:
+    dir: plan_outputs/${now:%Y%m%d%H%M%S}_${replace_slash:${model_name}}_gH${goal_H}
+
+# model to load for planning  
+ckpt_base_path: /mnt/data1/minghao/robomimic/checkpoints/outputs/robomimic_can/outputs/2025-08-07/14-52-03
+model_name: robomimic_align_trained
+model_epoch: latest
+
+seed: 100
+n_evals: 50
+goal_source: 'dset'
+goal_H: 15
+n_plot_samples: 0
+env_name: can-ph
+data_prefix: /data2/minghao/data/robomimic
+
+debug_dset_init: False
+
+objective:
+  _target_: planning.objectives.create_objective_fn
+  alpha: 1
+  base: 2
+  mode: last
+
+planner:
+  _target_: planning.mpc.MPCPlanner
+  max_iter: null 
+  n_taken_actions: 5
+  sub_planner:
+    target: planning.cem.CEMPlanner
+    horizon: 5
+    topk: 30
+    num_samples: 300
+    var_scale: 1
+    opt_steps: 30
+    eval_every: 1
+  name: mpc_cem

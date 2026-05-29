@@ -1,0 +1,6 @@
+_target_: models.decoder.vqvae.linear_decoder
+# channel: 64
+# n_res_block: 2
+# n_res_channel: 32
+# stride: 2
+# keep_num_patches: true

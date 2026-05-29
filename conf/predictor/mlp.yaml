@@ -1,0 +1,4 @@
+_target_: models.predictor.mlp.MLPPredictor
+hidden_dim: 512
+num_layers: 2
+dropout: 0.0

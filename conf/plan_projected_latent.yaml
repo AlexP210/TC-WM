@@ -1,0 +1,42 @@
+defaults:
+  - _self_
+
+hydra:
+  run:
+    dir: plan_outputs/${now:%Y%m%d%H%M%S}_projected_latent_${projected_dim}d_gH${goal_H}
+
+ckpt_base_path: /data2/minghao/wm/outputs/2025-09-13/03-37-25
+model_name: projected_latent_mixed
+model_epoch: latest
+projected_dim: 64
+seed: 42
+n_evals: 2
+goal_source: 'dset'
+n_plot_samples: 2
+debug_dset_init: false
+goal_H: 2
+
+objective:
+  _target_: planning.objectives.create_objective_fn
+  alpha: 1.0
+  base: 2
+  mode: projected_last
+  projected_dim: ${projected_dim}
+
+planner:
+  _target_: planning.mpc.MPCPlanner
+  max_iter: null 
+  n_taken_actions: 5
+  sub_planner:
+    target: planning.cem_projected.CEMProjectedPlanner
+    horizon: 5
+    topk: 10
+    num_samples: 100
+    var_scale: 1.0
+    opt_steps: 10
+    eval_every: 1
+  name: mpc_cem
+
+wandb_logging: false
+wandb_project: "dino_wm_projected_latent_planning"
+wandb_name: "projected_${projected_dim}d_H${goal_H}_${planner.name}"

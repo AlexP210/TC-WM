@@ -1,0 +1,45 @@
+defaults:
+  - _self_
+
+hydra:
+  run:
+    dir: plan_outputs/${now:%Y%m%d_%H%M%S}_dinowm_gH${goal_H}
+
+# ckpt_base_path = full path to the training run dir, e.g.:
+#   ${oc.env:TCWM_DATA_ROOT,./data}/logs/experiments/dinowm/wall/2026-03-02/19-48-26_wall_f5_h3_p1
+ckpt_base_path: ${oc.env:TCWM_DATA_ROOT,./data}/logs/experiments/dinowm/wall/2026-03-02/19-48-26
+model_epoch: latest
+
+seed: 99
+n_evals: 10
+goal_source: random_state   # random_state | dset | random_action
+goal_H: 5
+n_plot_samples: 10
+
+debug_dset_init: False
+wandb_logging: false
+
+objective:
+  _target_: planning.objectives.create_objective_fn
+  alpha: 1      # 0 = visual only; 1 = visual + state distance (paper default for wall)
+  base: 2
+  mode: last
+
+planner:
+  _target_: planning.mpc.MPCPlanner
+  max_iter: null
+  n_taken_actions: 5
+  sub_planner:
+    target: planning.cem_dmc.CEMDMCPlanner
+    horizon: 5
+    topk: 30
+    num_samples: 300
+    var_scale: 1
+    opt_steps: 50
+    eval_every: 1
+    # DMC-specific params
+    action_clamp: 2.5
+    min_std: 0.05
+    max_std: 2.0
+    momentum: 0.1
+  name: mpc_cem

@@ -1,0 +1,12 @@
+# Slim install (also see environment.yml for the conda-managed full env)
+torch>=2.0
+einops
+hydra-core>=1.3
+omegaconf>=2.3
+numpy
+pillow
+imageio[ffmpeg]
+wandb
+tqdm
+PyYAML
+matplotlib

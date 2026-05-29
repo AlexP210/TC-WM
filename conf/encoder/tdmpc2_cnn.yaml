@@ -1,0 +1,3 @@
+_target_: models.visual_encoder.encoder_tdmpc2.TDMPC2CNNEncoder
+emb_dim: 256
+num_channels: 32

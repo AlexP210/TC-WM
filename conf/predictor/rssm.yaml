@@ -1,0 +1,9 @@
+_target_: models.predictor.rssm.RSSMPredictor
+deter_dim: 512
+num_categories: 32
+num_classes: 32
+hidden_dim: 512
+num_layers: 2
+free_nats: 1.0
+kl_balance: 0.8
+unimix: 0.01

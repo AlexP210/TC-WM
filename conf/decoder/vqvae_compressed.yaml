@@ -1,0 +1,18 @@
+# VQVAE Decoder for compressed patches with patch alignment
+# Step 1: Patch alignment (49 patches -> 196 patches)
+# Step 2: Same architecture as standard vqvae
+
+_target_: models.decoder.vqvae.VQVAE
+channel: 64  # Internal processing channels (same as vqvae.yaml)
+n_embed: 2048
+n_res_block: 4
+n_res_channel: 128
+quantize: False
+emb_dim: 64  # Input dimension (projected_dim)
+
+# Patch alignment configuration for 7x7 patches (49 total)
+# Step 1: Expand patches 7x7 -> 56x56 (stride=8)
+# Step 2: Final decode 56x56 -> 224x224 (stride=4)
+# Total: 7 * 32 = 224 (perfect match!)
+upsample_stride: 8  # 7x7 -> 56x56
+decode_stride: 4    # 56x56 -> 224x224 (正确输出尺寸)

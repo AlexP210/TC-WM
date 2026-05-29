@@ -1,0 +1,5 @@
+objectives:
+  - _target_: models.objective.objectives.ConsistencyLossObjective
+    projected_dim: ${projected_dim}
+    loss_weight: 1.0
+    stop_grad_target: true   # TDMPC2-style: sg on target encoding

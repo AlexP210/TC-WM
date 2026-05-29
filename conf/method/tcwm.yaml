@@ -1,0 +1,14 @@
+objectives:
+  - _target_: models.objective.objectives.ConsistencyLossObjective
+    projected_dim: ${projected_dim}
+    loss_weight: 1.0
+
+  - _target_: models.objective.task.objectives.InfoNCEAlignmentObjective
+    _partial_: true          # state_dim injected at runtime from dataset
+    alignment_dim: ${alignment_dim}
+    projected_dim: ${projected_dim}
+    concat_dim: ${concat_dim}
+    num_pred: ${num_pred}
+    loss_weight: ${alignment_loss_weight}
+    temperature: ${alignment_temperature}
+    alignment_regularization: 0.001

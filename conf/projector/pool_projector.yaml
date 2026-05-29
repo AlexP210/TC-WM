@@ -1,0 +1,8 @@
+# Linear Temporal Projector Configuration
+# Linear projection with optional history support
+# Currently just does standard linear projection but can accept history
+
+_target_: models.projector.pool_projector.FusedProjectorWithPooling
+
+hidden_dim: 256
+num_projected_patches: 196

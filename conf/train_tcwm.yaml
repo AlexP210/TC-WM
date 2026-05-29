@@ -1,0 +1,110 @@
+defaults:
+  - env: pusht
+  - paths: paths
+  - common
+  - encoder: dino
+  - action_encoder: proprio
+  - proprio_encoder: proprio
+  - decoder: projected_vqvae
+  - emb_decoder: identity
+  - predictor: vit
+  - projector: mlp #linear_vae #linear_temporal #mlp #resblock
+  - method: tcwm
+  - override hydra/launcher: basic
+  - _self_
+
+ckpt_base_path: ${paths.data_root}/logs/experiments/tcwm/${env_output_name:${env.name},${env.dataset_name}}
+resume_folder: none #/data2/minghao/wm/outputs_wall/2025-10-03/04-35-04
+val_only: false
+description: ""
+
+latent_export:
+  enabled: false
+  output_path: null
+  splits: ["train"]
+  rgb_key: agentview_image
+  latent_grid_size: 14
+  mode: trajectory # slice
+
+
+# encoder:
+#   _target_: models.visual_encoder.dino.DinoV2Encoder
+#   name: "dinov2_vits14"
+#   feature_key: "x_norm_patchtokens"
+
+# Base path for local execution
+
+# Clean hydra config without any submitit
+hydra:
+  run:
+    dir: ${ckpt_base_path}/${now:%Y-%m-%d}/${now:%H-%M-%S}${maybe_suffix:${description}}
+  sweep:
+    dir: ${ckpt_base_path}/${now:%Y-%m-%d}/${now:%H-%M-%S}${maybe_suffix:${description}}
+    subdir: ${hydra.job.num}
+
+# Single GPU training settings
+training:
+  seed: 0
+  epochs: 1  # Full training
+  batch_size: 16  # Single GPU batch size
+  save_every_x_epoch: 1
+  reconstruct_every_x_batch: 500
+  num_reconstruct_samples: 2
+  encoder_lr: 1e-6
+  decoder_lr: 3e-4
+  predictor_lr: 5e-4
+  action_encoder_lr: 5e-4
+
+env:
+  dataset_name: walker-stand
+
+has_predictor: True # set this to False for only training a decoder
+has_decoder: True # Keep decoder - uses original 384D DINO features like original DINO-WM
+
+encoder_emb_dim: 384
+action_emb_dim: 32 
+
+
+proprio_emb_dim: 64
+
+projected_dim: 256  # Target compressed dimension
+compressed_patches: 49  # Target compressed patch count (7x7)
+original_patches: 196   # Original patch count (14x14)
+
+alignment_dim: 64  # InfoNCE alignment with proprio dimension
+alignment_temperature: 0.01  # InfoNCE temperature
+alignment_loss_weight: 0.1   # InfoNCE loss weight multiplier
+
+model:
+  _target_: models.visual_world_model.VWorldModel
+  image_size: ${img_size}
+  num_hist: ${num_hist}
+  num_pred: ${num_pred}
+  train_encoder: False
+  alignment_dim: ${alignment_dim}
+  train_predictor: True
+  train_decoder: True
+  train_decoder_grad: False
+  train_emb_decoder_grad: True
+  projected_dim: ${projected_dim}
+
+# Alignment settings with new architecture: 12D z-space, InfoNCE alignment, full dynamics
+alignment:
+  open_alignment: True
+  state_consistency_loss_weight: 0.1
+  alignment_regularization: 0.001
+  latent_dynamics_loss_weight: 1.0  
+
+proprio_pred:
+  loss_type: mse    # mse | infonce
+  space: raw        # raw | emb
+  weight: 1.0
+  infonce_temp: 0.1
+
+# DINO reconstruction is not used - removed
+
+# WandB settings
+wandb:
+  project: tasuw
+  name: "linear_projector_history_196_64"
+  entity: minghao_workaholic

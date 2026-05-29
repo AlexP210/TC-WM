@@ -1,0 +1,14 @@
+# Linear Temporal Projector Configuration
+# Linear projection with optional history support
+# Currently just does standard linear projection but can accept history
+
+_target_: models.projector.linear_vae.VAETemporalProjector
+
+# Standard projector interface
+# in_features and out_features will be passed dynamically at runtime
+
+# Temporal processing options
+use_history: false   # 是否接收历史信息
+num_hist: 3         # 历史窗口大小
+
+# Note: This projector maintains 196 patches unchanged, only projects features 416->64

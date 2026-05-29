@@ -1,0 +1,36 @@
+defaults:
+  - _self_
+  - env: robomimic_can
+  - encoder: dino 
+  - action_encoder: proprio
+  - proprio_encoder: proprio
+  - decoder: vqvae
+  - predictor: vit
+
+# Model checkpoint path for alignment model (using existing alignment checkpoint for now)
+ckpt_path: /mnt/data1/minghao/robomimic/checkpoints/outputs/robomimic_can/outputs/2025-07-24/10-28-51/checkpoint_best.pt
+ckpt_base_path: /mnt/data1/minghao/robomimic/checkpoints/outputs/robomimic_can/outputs/2025-07-24/10-28-51
+
+# Dataset
+dset_name: "robomimic_can"
+
+# Planning parameters
+goal_H: 20
+max_time_steps: 200
+frameskip: 5
+num_trajs_per_goal: 10
+
+# Evaluation 
+num_eval_trajs: 10
+eval_timeout: 60
+eval_seed: 42
+
+# GPU selection
+gpu_id: "auto"  # Will auto-select best GPU
+
+# Logging
+log_file: "planning_align_recon_H${goal_H}.log"
+save_results: true
+save_rollouts: false
+
+debug: false

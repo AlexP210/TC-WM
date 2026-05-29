@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+.venv/
+.env
+
+# Runtime artifacts
+wandb/
+logs/
+plan_outputs/
+rollout_outputs/
+outputs/
+checkpoints/
+*.pth
+*.ckpt
+
+# Data
+data/
+*.h5
+*.hdf5
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

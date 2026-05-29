@@ -1,0 +1,23 @@
+# Temporal Projector Configuration
+# 处理 z_{t-1} + x_t -> z_t 的时序投影
+
+_target_: models.projector.temporal_projector.TemporalProjector
+
+# Input dimensions
+z_patches: 49        # z_{t-1} patch数量 (7x7, compressed)
+z_dim: 64            # z_{t-1} feature维度 (64)
+x_patches: 196       # x_t patch数量 (14x14, DINO patches)
+x_dim: 394           # x_t feature维度 (394 = visual + proprio for concat_dim=1)
+
+# Output dimensions (same as z input)
+output_patches: 49   # 输出patch数量
+output_dim: 64       # 输出feature维度 (64)
+
+# ViT architecture parameters
+hidden_dim: 512      # 共同的hidden维度
+depth: 4             # Transformer层数
+heads: 8             # Attention头数
+mlp_dim: 1024        # MLP隐藏维度
+dim_head: 32         # 每个attention head的维度
+dropout: 0.1         # Dropout率
+emb_dropout: 0.1     # Embedding dropout率

@@ -1,0 +1,4 @@
+_target_: models.visual_encoder.dino.DinoV2Encoder
+name: "dinov2_vits14"
+feature_key: "x_norm_patchtokens"
+projected_dim: 384  # Use full DINO embedding, no projection
