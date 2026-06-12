@@ -11,9 +11,9 @@ Turning frozen visual foundation embeddings into a compact, task-centric latent 
 ---
 
 <p align="center">
-  <video src="https://minghaofu.com/tc-wm/static/videos/tcwm_teaser.mp4" controls muted width="100%"></video>
+  <a href="https://minghaofu.com/tc-wm/"><img src="https://minghaofu.com/tc-wm/static/videos/tcwm_teaser_poster.jpg" width="90%" alt="TC-WM — one-minute overview (click to watch)"></a>
 </p>
-<p align="center"><sub><b>&#9654; One-minute overview.</b> If the video does not play inline, watch it on the <a href="https://minghaofu.com/tc-wm/">project page</a> (which also hosts an interactive demo).</sub></p>
+<p align="center"><sub><b>&#9654; One-minute overview</b> &mdash; click to watch on the <a href="https://minghaofu.com/tc-wm/">project page</a> (interactive demo included).</sub></p>
 
 ## What
 
