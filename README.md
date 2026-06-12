@@ -10,11 +10,33 @@ Turning frozen visual foundation embeddings into a compact, task-centric latent 
 
 ---
 
+<p align="center">
+  <video src="https://minghaofu.com/tc-wm/static/videos/tcwm_teaser.mp4" controls muted width="100%"></video>
+</p>
+<p align="center"><sub><b>&#9654; One-minute overview.</b> If the video does not play inline, watch it on the <a href="https://minghaofu.com/tc-wm/">project page</a> (which also hosts an interactive demo).</sub></p>
+
 ## What
 
 TC-WM treats a pretrained visual backbone (e.g. DINOv2) as a **semantic scaffold**, not the final state space. A **linear projection** compresses its embedding into a compact latent; a designated subspace is **aligned with proprioception** via InfoNCE; a **ViT** predicts latent dynamics; a **linear decoder** reconstructs the embedding to prevent collapse. The task-centric block is identifiable up to a simple transformation.
 
+<p align="center"><img src="https://minghaofu.com/tc-wm/static/figures/png/network.png" width="100%"></p>
+<p align="center"><sub><b>Architecture.</b> A frozen visual backbone is linearly projected into a compact latent; a designated subspace z<sup>s</sup> is aligned with proprioception via InfoNCE; a ViT predicts latent dynamics; a linear decoder reconstructs the embedding to prevent collapse.</sub></p>
+
 Empirically, TC-WM enables zero-shot **test-time planning** across nine offline visual-control tasks — Maze, Wall, Push-T, Lift, Can, Square, Reacher, Cheetah, Hopper — beating DINO-WM on every LDP task and matching strong model-based baselines.
+
+<p align="center"><img src="https://minghaofu.com/tc-wm/static/figures/png/world_model_variants.png" width="100%"></p>
+<p align="center"><sub><b>Where TC-WM sits.</b> Generative (a) and latent (b) world models, embedding world models on frozen foundations (c), and TC-WM (d&ndash;e): a compact task-centric latent <i>inside</i> the embedding, with z<sup>s</sup>/z<sup>c</sup> aligned and split.</sub></p>
+
+## Results
+
+<p align="center"><img src="https://minghaofu.com/tc-wm/static/figures/png/plan_compare_cem_ldp.png" width="100%"></p>
+<p align="center"><sub><b>Planning.</b> CEM on Maze / Wall / Push-T / Cheetah / Hopper; LDP on Lift / Can / Square. TC-WM matches strong model-based baselines and is the only method that surpasses DINO-WM on every manipulation (LDP) task.</sub></p>
+
+<p align="center"><img src="https://minghaofu.com/tc-wm/static/figures/png/pred_loss.png" width="100%"></p>
+<p align="center"><sub><b>World-model prediction.</b> Lowest latent-prediction error on nearly all tasks; competitive image reconstruction. Lower is better.</sub></p>
+
+<p align="center"><img src="https://minghaofu.com/tc-wm/static/figures/png/teaser_five_panel.png" width="100%"></p>
+<p align="center"><sub><b>Robomimic highlight.</b> Success rate, latent-rollout MSE, linear probes on <code>Lift</code> and <code>Can</code>, and anti-collapse: TC-WM avoids the latent collapse seen when rolling out directly on foundation embeddings.</sub></p>
 
 ## Install
 
