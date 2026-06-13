@@ -2,7 +2,7 @@
 
 Turning frozen visual foundation embeddings into a compact, task-centric latent space for reward-free offline planning and control.
 
-[Minghao Fu](https://minghaofu.github.io/) &middot; [Fan Feng](https://scholar.google.com/citations?user=rYKQ3i8AAAAJ) &middot; [Nicklas Hansen](https://www.nicklashansen.com/) &middot; [Biwei Huang](https://biweihuang.com/) &nbsp;|&nbsp; UC San Diego
+[Minghao Fu](https://minghaofu.github.io/) &middot; [Fan Feng](https://fan-feng.com/) &middot; [Nicklas Hansen](https://www.nicklashansen.com/) &middot; [Biwei Huang](https://biweihuang.com/) &nbsp;|&nbsp; UC San Diego
 
 [![arXiv](https://img.shields.io/badge/arXiv-2605.25620-b31b1b)](https://arxiv.org/abs/2605.25620)
 [![Project](https://img.shields.io/badge/Project-Page-2563eb)](https://minghaofu.com/tc-wm/)
