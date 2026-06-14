@@ -1,6 +1,6 @@
 # Back to Parsimonious Latents: Learning Task-Centric World Models from Visual Foundations
 
-What should a world model represent for planning and control? A compact, task-centric latent aligned with the agent's physical state, not the raw visual embedding.
+What should a world model represent for planning and control beyond visual? A compact, task-centric latent aligned with the agent's physical state.
 
 [Minghao Fu](https://minghaofu.com/) &middot; [Fan Feng](https://fan-feng.com/) &middot; [Nicklas Hansen](https://www.nicklashansen.com/) &middot; [Biwei Huang](https://biweihuang.com/) &nbsp;|&nbsp; UC San Diego
 
