@@ -1,6 +1,6 @@
 # Back to Parsimonious Latents: Learning Task-Centric World Models from Visual Foundations
 
-What should a world model represent for planning and control beyond visual?
+What representation should a world model learn for planning and control beyond visual?
 
 [Minghao Fu](https://minghaofu.com/) &middot; [Fan Feng](https://fan-feng.com/) &middot; [Nicklas Hansen](https://www.nicklashansen.com/) &middot; [Biwei Huang](https://biweihuang.com/) &nbsp;|&nbsp; UC San Diego
 
