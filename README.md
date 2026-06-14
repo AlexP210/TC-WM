@@ -1,6 +1,6 @@
 # Back to Parsimonious Latents: Learning Task-Centric World Models from Visual Foundations
 
-Turning frozen visual foundation embeddings into a compact, task-centric latent space for reward-free offline planning and control.
+What should a world model represent for planning and control? A compact, task-centric latent aligned with the agent's physical state, not the raw visual embedding.
 
 [Minghao Fu](https://minghaofu.com/) &middot; [Fan Feng](https://fan-feng.com/) &middot; [Nicklas Hansen](https://www.nicklashansen.com/) &middot; [Biwei Huang](https://biweihuang.com/) &nbsp;|&nbsp; UC San Diego
 
@@ -11,9 +11,9 @@ Turning frozen visual foundation embeddings into a compact, task-centric latent 
 ---
 
 <p align="center">
-  <a href="https://minghaofu.com/tc-wm/"><img src="https://minghaofu.com/tc-wm/static/videos/tcwm_teaser_poster.jpg" width="90%" alt="TC-WM — one-minute overview (click to watch)"></a>
+  <a href="https://minghaofu.com/tc-wm/"><img src="https://minghaofu.com/tc-wm/static/videos/tcwm_teaser.gif" width="90%" alt="TC-WM — one-minute overview"></a>
 </p>
-<p align="center"><sub><b>&#9654; One-minute overview</b> &mdash; click to watch on the <a href="https://minghaofu.com/tc-wm/">project page</a> (interactive demo included).</sub></p>
+<p align="center"><sub><b>&#9654; One-minute overview</b> &mdash; click for the full video (with audio) and an interactive demo on the <a href="https://minghaofu.com/tc-wm/">project page</a>.</sub></p>
 
 ## What
 
