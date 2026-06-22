@@ -11,7 +11,7 @@ What latent space should a world model learn for planning and control beyond vis
 ---
 
 <p align="center">
-  <a href="https://minghaofu.com/tc-wm/"><img src="https://minghaofu.com/tc-wm/static/videos/tcwm_teaser.gif" width="90%" alt="TC-WM — one-minute overview"></a>
+  <a href="https://minghaofu.com/tc-wm/"><img src="https://minghaofu.com/tc-wm/static/videos/tcwm_teaser_sm.gif" width="90%" alt="TC-WM — one-minute overview"></a>
 </p>
 <p align="center"><sub><b>&#9654; One-minute overview</b> &mdash; click for the full video (with audio) and an interactive demo on the <a href="https://minghaofu.com/tc-wm/">project page</a>.</sub></p>
 
