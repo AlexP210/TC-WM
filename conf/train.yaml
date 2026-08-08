@@ -1,7 +1,7 @@
 defaults:
   - _self_
-  - env: pusht
-  - encoder: dino 
+  - env: ???
+  - encoder: dinov3
   - action_encoder: proprio
   - proprio_encoder: proprio
   - decoder: vqvae
@@ -10,15 +10,15 @@ defaults:
   - override hydra/launcher: basic
 
 # base path to save model outputs. Checkpoints will be saved to ${ckpt_base_path}/outputs.
-ckpt_base_path: ${oc.env:TCWM_DATA_ROOT,./data}/checkpoints  # set to your trained run dir
+ckpt_base_path: ???  # set to your trained run dir
 resume_folder: none
 val_only: false
 
 hydra:
   run:
-    dir: ${ckpt_base_path}/${now:%Y-%m-%d}/${now:%H-%M-%S}
+    dir: ${ckpt_base_path}/outputs/${now:%Y-%m-%d}/${now:%H-%M-%S}
   sweep:
-    dir: ${ckpt_base_path}/${now:%Y-%m-%d}/${now:%H-%M-%S}
+    dir: ${ckpt_base_path}/outputs/${now:%Y-%m-%d}/${now:%H-%M-%S}
     subdir: ${hydra.job.num}
 
 training:
@@ -26,6 +26,7 @@ training:
   epochs: 100
   batch_size: 32 # should >= nodes * tasks_per_node
   save_every_x_epoch: 1
+  save_best: True
   reconstruct_every_x_batch: 500
   num_reconstruct_samples: 6
   encoder_lr: 1e-6
@@ -79,3 +80,6 @@ plan_settings:
   goal_source: ['dset', 'random_state']
   goal_H: [5]
   alpha: [0.1, 1]
+
+# Config variables to run inside TSD environment
+data_dir: ???

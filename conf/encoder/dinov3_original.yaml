@@ -1,0 +1,2 @@
+_target_: models.visual_encoder.dinov3.DinoV3Encoder
+model_id: "facebook/dinov3-vitb16-pretrain-lvd1689m"
