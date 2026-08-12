@@ -45,7 +45,7 @@ hydra:
 # Single GPU training settings
 training:
   seed: 0
-  epochs: 1  # Full training
+  epochs: 100  # Full training
   batch_size: 16  # Single GPU batch size
   save_every_x_epoch: 1
   save_best: True
