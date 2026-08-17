@@ -14,7 +14,7 @@ defaults:
   - _self_
 
 ckpt_base_path: ???
-resume_folder: none
+resume_folder: /home/alexpl/scratch/tcwm/2026-08-14/22-50-26
 val_only: false
 description: ""
 
