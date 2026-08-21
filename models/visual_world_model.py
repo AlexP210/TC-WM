@@ -255,18 +255,31 @@ class VWorldModel(nn.Module):
         proprio = self.proprio_encoder(proprio)
         return proprio
 
-    def encode_obs(self, obs, project=False):
+    def encode_visual(self, obs):
+        """Patch embeddings for `obs`, from precomputed features when the dataset carries them.
+
+        `dino_patch_features` is what tools/preprocess_data.py --dino writes into a recording and
+        what the ManiSkill loaders hand through: the same frozen backbone over the same frames,
+        computed once offline instead of once per batch. Nothing downstream can tell the
+        difference, so this is purely a speed path, and it is skipped automatically for a dataset
+        that carries no features. It does assume the features were computed at the resolution and
+        patch size this encoder would use, which is what --camera and the encoder config settle.
         """
-        input : obs (dict): "visual", "proprio" (b, t, 3, img_size, img_size)
-        output:   z (dict): "visual", "proprio" (b, t, num_patches, encoder_emb_dim)
-        """
+        if "dino_patch_features" in obs:
+            return obs["dino_patch_features"]
         visual = obs['visual']
         b = visual.shape[0]
         visual = rearrange(visual, "b t ... -> (b t) ...")
         visual = self.encoder_transform(visual)
         visual_embs = self.encoder.forward(visual)
-        visual_embs = rearrange(visual_embs, "(b t) p d -> b t p d", b=b)
+        return rearrange(visual_embs, "(b t) p d -> b t p d", b=b)
 
+    def encode_obs(self, obs, project=False):
+        """
+        input : obs (dict): "visual", "proprio" (b, t, 3, img_size, img_size)
+        output:   z (dict): "visual", "proprio" (b, t, num_patches, encoder_emb_dim)
+        """
+        visual_embs = self.encode_visual(obs)
         proprio = obs['proprio']
         proprio_emb = self.encode_proprio(proprio)
         return {"visual": visual_embs, "proprio": proprio_emb}

@@ -57,3 +57,27 @@ try:
     )
 except Exception:
     pass
+
+# ManiSkill tasks. max_episode_steps matches ManiSkill's own registration for each task (and the
+# recorded trajectory length). The env checker is disabled because, like every wrapper here,
+# reset() returns (obs, state) rather than the (obs, info) gym expects.
+register(
+    id="push_cube",
+    entry_point="env.pushcube.pushcube_wrapper:PushCubeWrapper",
+    max_episode_steps=50,
+    disable_env_checker=True,
+)
+
+register(
+    id="lift_peg",
+    entry_point="env.liftpeg.liftpeg_wrapper:LiftPegUprightWrapper",
+    max_episode_steps=50,
+    disable_env_checker=True,
+)
+
+register(
+    id="place_sphere",
+    entry_point="env.placesphere.placesphere_wrapper:PlaceSphereWrapper",
+    max_episode_steps=50,
+    disable_env_checker=True,
+)
