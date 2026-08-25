@@ -36,10 +36,13 @@ latent_export:
 
 # Clean hydra config without any submitit
 hydra:
+  # ${env.name} keeps concurrent Slurm array tasks (one env per task) in separate
+  # run dirs. Without it they share a dir whenever they start in the same second,
+  # and overwrite each other's checkpoints, configs and logs.
   run:
-    dir: ${ckpt_base_path}/${now:%Y-%m-%d}/${now:%H-%M-%S}${maybe_suffix:${description}}
+    dir: ${ckpt_base_path}/${now:%Y-%m-%d}/${now:%H-%M-%S}_${env.name}${maybe_suffix:${description}}
   sweep:
-    dir: ${ckpt_base_path}/${now:%Y-%m-%d}/${now:%H-%M-%S}${maybe_suffix:${description}}
+    dir: ${ckpt_base_path}/${now:%Y-%m-%d}/${now:%H-%M-%S}_${env.name}${maybe_suffix:${description}}
     subdir: ${hydra.job.num}
 
 # Single GPU training settings
