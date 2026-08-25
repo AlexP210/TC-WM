@@ -737,9 +737,25 @@ class Trainer:
         # open_alignment: True iff any objective owns an alignment_projection
         self.model.open_alignment = self.alignment_projection is not None
         model_ckpt = Path(self.cfg.resume_folder if self.cfg.resume_folder is not None else self.cfg.saved_folder) / "checkpoints" / "model_latest.pth"
+        # Only an explicitly requested resume is required to exist. The fallback is this
+        # run's own output directory, where no checkpoint simply means nothing has been
+        # saved yet -- the ordinary state of a fresh run. Sentinels match `export_latents`.
+        resume_requested = self.cfg.resume_folder not in (None, "none", "", "null")
         if model_ckpt.exists():
             self.load_ckpt(model_ckpt)
             log.info(f"Resuming from epoch {self.epoch}: {model_ckpt}")
+        elif resume_requested:
+            # Falling through here leaves every module built above at its random
+            # initialization, and nothing downstream can tell the difference: training
+            # silently restarts from scratch, and anything that only borrows this Trainer
+            # as a model factory -- a frozen world model being planned or evaluated --
+            # silently does so with untrained weights.
+            raise FileNotFoundError(
+                f"resume_folder is set to '{self.cfg.resume_folder}' but it holds no "
+                f"checkpoint at {model_ckpt}. Point resume_folder at the run directory "
+                f"that contains checkpoints/model_latest.pth, or set it to null to start "
+                f"from a random initialization deliberately."
+            )
 
     def init_optimizers(self):
         self.encoder_optimizer = torch.optim.Adam(
