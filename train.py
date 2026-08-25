@@ -207,8 +207,9 @@ class Trainer:
         _fh.setFormatter(logging.Formatter("%(message)s"))
         logging.getLogger().addHandler(_fh)
         cfg_dict = cfg_to_dict(cfg)
+        # saved_folder already ends in _${env.name} (see hydra.run.dir in conf/train_tcwm.yaml)
         model_name = cfg_dict["saved_folder"].split("outputs/")[-1]
-        model_name += f"_{self.cfg.env.name}_f{self.cfg.frameskip}_h{self.cfg.num_hist}_p{self.cfg.num_pred}"
+        model_name += f"_f{self.cfg.frameskip}_h{self.cfg.num_hist}_p{self.cfg.num_pred}"
 
         # Check if we should use multiple GPUs (only for SLURM multirun)
         if HydraConfig.get().mode == RunMode.MULTIRUN:
