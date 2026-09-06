@@ -10,7 +10,6 @@ wandb.login()  # reads ~/.netrc; set via
 import logging
 import warnings
 import numpy as np
-import submitit
 from itertools import product
 from pathlib import Path
 from einops import rearrange
@@ -48,6 +47,11 @@ def launch_plan_jobs(
     cfg_dicts,
     plan_output_dir,
 ):
+    # Imported here rather than at module scope: submitit is only needed to launch these
+    # Slurm jobs, and it is absent from the TSD container, which imports load_model from
+    # this module (rollout.py, and anything else that rebuilds a trained model).
+    import submitit
+
     with submitit.helpers.clean_env():
         jobs = []
         for cfg_dict in cfg_dicts:

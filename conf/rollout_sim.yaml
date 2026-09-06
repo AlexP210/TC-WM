@@ -1,0 +1,48 @@
+# Side-by-side rollout of one validation trajectory: the simulator on the top row, the world
+# model on the bottom. See rollout_sim.py.
+#
+# Two choices pick out what gets rolled out:
+#   env        -- which conf/env config supplies the gym id, its kwargs, and (nested under
+#                 `dataset`) the recording the validation trajectories are read from
+#   ckpt_path  -- which trained world model imagines them
+#
+# Everything about how the model is *built* (num_hist, num_pred, frameskip, concat_dim, the
+# encoder/decoder/predictor specs) is read back from the hydra.yaml frozen beside the
+# checkpoint at training time, never from here: rebuilding those from current defaults would
+# quietly assemble a different model than the weights were trained for.
+defaults:
+  - _self_
+  - env: push_cube
+  - override hydra/launcher: basic
+
+hydra:
+  run:
+    dir: ${output_dir}/tcwm_rollouts/${now:%Y%m%d-%H%M%S}_${env.name}
+
+# The checkpoint to roll out. Its run directory -- two levels up, alongside checkpoints/ --
+# must still hold the hydra.yaml written there at training time.
+ckpt_path: ???
+
+# Which validation trajectory to replay. null draws one uniformly at random from those long
+# enough for the requested horizon, under `seed`.
+traj_id: null
+# Where in that trajectory the rollout starts, counted in dataset frames. null means frame 0.
+start: null
+# Rollout length in world-model steps, each covering `frameskip` env steps. null rolls out as
+# much of the trajectory as fits from `start` -- i.e. the whole thing.
+horizon: null
+
+seed: 0
+device: cuda:0
+
+# These belong to the env's nested dataset config above (the image transform and whether
+# actions are normalized), but they have to agree with what the checkpoint trained under or
+# the normalization statistics and the model stop matching. rollout.py asserts that rather
+# than trusting it.
+img_size: 224
+normalize_action: True
+
+# Config variables to run inside TSD environment. output_dir only picks the hydra run dir,
+# so it has a usable relative default; data_dir is interpolated into the dataset path.
+output_dir: rollout_outputs
+data_dir: ???
