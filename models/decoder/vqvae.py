@@ -322,21 +322,30 @@ class ProjectedVQVAEDecoder(BaseDecoder):
         """
         z_in = z.detach() if self.sg_before_emb_decoder else z
         z_emb = self.emb_decoder_mlp(z_in)
-        z_vqvae = z_emb.detach() if self.sg_before_vqvae else z_emb
-        dec, diff = self.vqvae(z_vqvae)
         losses = {}
-        if self.vqvae.quantize:
-            losses["vq_loss"] = diff
+        # pixel_decoder=False (or the VQVAE removed, as S2P's `drop_decoder` does): stop at
+        # feature space. Only valid with sg_before_vqvae, where the pixel stage trains nothing
+        # but itself; `dec` is then None and there is no recon_loss / vq_loss.
+        pixel_decoder = getattr(self, "pixel_decoder", True) and self.vqvae is not None
+        if pixel_decoder:
+            z_vqvae = z_emb.detach() if self.sg_before_vqvae else z_emb
+            dec, diff = self.vqvae(z_vqvae)
+            if self.vqvae.quantize:
+                losses["vq_loss"] = diff
+        else:
+            dec = None
         if targets is not None:
             if "visual_emb" in targets:
                 losses["emb_recon_loss"] = F.mse_loss(z_emb, targets["visual_emb"])
-            if "image" in targets:
+            if "image" in targets and dec is not None:
                 target_flat = rearrange(targets["image"], "b t c h w -> (b t) c h w")
                 losses["recon_loss"] = F.mse_loss(dec, target_flat)
         return dec, losses
 
     def forward(self, z):
         dec, aux = self.forward_with_losses(z)
+        if dec is None:
+            raise RuntimeError("This decoder's pixel stage is disabled (pixel_decoder=False); it cannot render images.")
         return dec, aux.get("vq_loss", torch.zeros(1, device=z.device))
 
 

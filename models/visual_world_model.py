@@ -455,7 +455,8 @@ class VWorldModel(nn.Module):
                     z_projected,
                     targets={"visual_emb": visual_emb_tgt, "image": visual_tgt, "action": act[:, :self.num_hist]},
                 )
-                visual_pred = rearrange(dec_out, "(b t) c h w -> b t c h w", b=b)
+                # None when the decoder renders no pixels (ProjectedVQVAEDecoder pixel_decoder=False).
+                visual_pred = None if dec_out is None else rearrange(dec_out, "(b t) c h w -> b t c h w", b=b)
 
                 recon_loss_pred = dec_losses.get("recon_loss", torch.zeros(1, device=z_projected.device))
                 emb_recon_loss_pred = dec_losses.get("emb_recon_loss", torch.zeros(1, device=z_projected.device))
@@ -562,7 +563,7 @@ class VWorldModel(nn.Module):
                 z_proj_recon,
                 targets={"visual_emb": z_dct['visual'], "image": obs['visual'], "action": act},
             )
-            visual_reconstructed = rearrange(dec_out_r, "(b t) c h w -> b t c h w", b=b_recon)
+            visual_reconstructed = None if dec_out_r is None else rearrange(dec_out_r, "(b t) c h w -> b t c h w", b=b_recon)
             recon_loss_reconstructed = dec_aux_r.get("recon_loss", torch.zeros(1, device=z_proj_recon.device))
             emb_recon_loss_reconstructed = dec_aux_r.get("emb_recon_loss", torch.zeros(1, device=z_proj_recon.device))
             vq_loss_reconstructed = dec_aux_r.get("vq_loss", torch.zeros(1, device=z_proj_recon.device))

@@ -179,6 +179,12 @@ def _stage_to_slurm_tmpdir(data_path: Path) -> Path:
     Staging is an optimization, never a requirement: whenever it isn't possible this falls
     back to reading `data_path` where it already lives, and prints why.
     """
+    # MANISKILL_DSET_NO_STAGING=1 reads the recording in place: for runs that only need it
+    # for a few arrays (e.g. normalization stats), where the copy would dominate the job.
+    if os.environ.get("MANISKILL_DSET_NO_STAGING", "") not in ("", "0"):
+        print(f"Not staging data: MANISKILL_DSET_NO_STAGING is set. Reading {data_path} directly.", flush=True)
+        return data_path
+
     tmpdir = os.environ.get("SLURM_TMPDIR")
     if not tmpdir:
         return data_path
